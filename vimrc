@@ -74,7 +74,8 @@ Plug 'beyondwords/vim-twig'
 
 Plug 'https://github.com/tpope/vim-surround'
 
-Plug 'https://github.com/itchyny/lightline.vim'
+" Plug 'https://github.com/itchyny/lightline.vim'
+Plug 'https://github.com/vim-airline/vim-airline'
 
 Plug 'https://github.com/stephpy/vim-php-cs-fixer'
 
@@ -94,6 +95,20 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
 Plug 'https://github.com/Yggdroot/LeaderF'
+
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'phpactor/ncm2-phpactor'
+Plug 'neomake/neomake'
+
+Plug 'https://github.com/jiangmiao/auto-pairs'
+
+Plug 'ntpeters/vim-better-whitespace'
+
+Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
+
 
 call plug#end()
 
@@ -118,13 +133,6 @@ nnoremap <Down> :echo "no"<CR>
 nnoremap <Right> :echo "no"<CR>
 nnoremap <Left> :echo "no"<CR>
 
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
 
 
 nnoremap zz :update<CR>
@@ -135,6 +143,8 @@ inoremap ; <Esc>$a;<Esc>
 nnoremap ; <Esc>$a;<Esc>
 
 nnoremap ,d g_lD
+
+nnoremap ,h :noh<cr>
 
 
 set relativenumber
@@ -151,6 +161,15 @@ nnoremap R :e<CR>
 nmap <leader>F :Leaderf function<CR>
 
 
+let g:molokai_original=1
+colorscheme molokai
+
+" NCM2 CONFIG
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -230,4 +249,30 @@ let g:syntastic_php_phpcs_args = '--standard=psr2'
 let g:syntastic_php_phpmd_exec = '~/phpmd/phpmd/src/bin/phpmd'
 let g:syntastic_php_phpmd_post_args = 'cleancode,codesize,controversial,design,unusedcode'
 
-command Todo noautocmd vimgrep /TODO\|FIXME/j src/** | cw
+set scrolljump=15
+set cursorline
+set cursorcolumn
+" hi CursorLine   cterm=NONE ctermbg=234 ctermfg=NONE
+set ruler
+
+" save on jump
+set autowrite
+
+" auto reload file
+set autoread
+
+" SHARED CLIPBOARD
+set clipboard+=unnamedplus
+
+" UNDO CACHE
+set undofile
+set undodir=/tmp
+
+"Latex CONF
+map ,c zz:! pdflatex ~/pps/PPS_Franco_Ganga.tex<cr>
+autocmd Filetype tex setl updatetime=10
+let g:livepreview_previewer = 'evince'
+
+set mouse=
+
+command Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
