@@ -74,7 +74,9 @@ Plug 'beyondwords/vim-twig'
 
 Plug 'https://github.com/tpope/vim-surround'
 
-Plug 'https://github.com/itchyny/lightline.vim'
+"Plug 'https://github.com/itchyny/lightline.vim'
+
+Plug 'https://github.com/vim-airline/vim-airline'
 
 Plug 'https://github.com/stephpy/vim-php-cs-fixer'
 
@@ -94,6 +96,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
 Plug 'https://github.com/Yggdroot/LeaderF'
+
+
+Plug 'https://github.com/jiangmiao/auto-pairs'
+
+Plug 'ntpeters/vim-better-whitespace'
 
 call plug#end()
 
@@ -137,6 +144,7 @@ nnoremap ; <Esc>$a;<Esc>
 nnoremap ,d g_lD
 
 
+nnoremap ,h :noh<cr>
 set relativenumber
 set nu
 
@@ -151,6 +159,8 @@ nnoremap R :e<CR>
 nmap <leader>F :Leaderf function<CR>
 
 
+let g:molokai_original=1
+colorscheme molokai
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -229,5 +239,32 @@ let g:syntastic_php_phpcs_exec = '~/RUDA/PPS-RUDA/vendor/bin/phpcs'
 let g:syntastic_php_phpcs_args = '--standard=psr2'
 let g:syntastic_php_phpmd_exec = '~/phpmd/phpmd/src/bin/phpmd'
 let g:syntastic_php_phpmd_post_args = 'cleancode,codesize,controversial,design,unusedcode'
+
+
+set scrolljump=15
+set cursorline
+set cursorcolumn
+" hi CursorLine   cterm=NONE ctermbg=234 ctermfg=NONE
+set ruler
+
+" save on jump
+set autowrite
+
+" auto reload file
+set autoread
+
+" SHARED CLIPBOARD
+set clipboard+=unnamedplus
+
+" UNDO CACHE
+set undofile
+set undodir=/tmp
+
+"Latex CONF
+map ,c zz:! pdflatex ~/pps/PPS_Franco_Ganga.tex<cr>
+
+set mouse=
+
+set spelllang=es
 
 command Todo noautocmd vimgrep /TODO\|FIXME/j src/** | cw
