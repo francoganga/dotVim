@@ -68,14 +68,14 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 
 Plug 'https://github.com/mattn/emmet-vim'
 
-Plug 'airblade/vim-gitgutter'
-
 Plug 'beyondwords/vim-twig'
 
 Plug 'https://github.com/tpope/vim-surround'
 
 " Plug 'https://github.com/itchyny/lightline.vim'
 Plug 'https://github.com/vim-airline/vim-airline'
+
+Plug 'https://github.com/airblade/vim-gitgutter'
 
 Plug 'https://github.com/stephpy/vim-php-cs-fixer'
 
@@ -87,9 +87,6 @@ Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
 
 Plug 'https://github.com/tpope/vim-commentary'
 
-Plug 'https://github.com/vim-syntastic/syntastic'
-
-Plug 'https://github.com/wsdjeg/vim-todo'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -105,34 +102,57 @@ Plug 'https://github.com/jiangmiao/auto-pairs'
 
 Plug 'ntpeters/vim-better-whitespace'
 
-Plug 'lervag/vimtex'
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
 
+Plug 'https://github.com/vim-vdebug/vdebug'
+
+Plug 'https://github.com/tpope/vim-repeat'
+
+Plug 'https://github.com/tpope/vim-unimpaired'
+
+Plug 'https://github.com/rust-lang/rust.vim'
+
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'branch': 'release/1.x',
+  \ 'for': [
+    \ 'javascript',
+    \ 'typescript',
+    \ 'css',
+    \ 'less',
+    \ 'scss',
+    \ 'json',
+    \ 'graphql',
+    \ 'markdown',
+    \ 'vue',
+    \ 'lua',
+    \ 'php',
+    \ 'python',
+    \ 'ruby',
+    \ 'html',
+    \ 'swift' ] }
+
+
+Plug 'justinmk/vim-sneak'
+
+
+if has('nvim') || has('patch-8.0.902')
+  Plug 'mhinz/vim-signify'
+else
+  Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+endif
 
 
 call plug#end()
 
+let g:deoplete#enable_at_startup = 1
 
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 imap jj <Esc>
 
 map ,l :NERDTreeToggle<CR>
-
-inoremap <Up> :echo "no"<CR>
-inoremap <Down> :echo "no"<CR>
-
-inoremap <Left> :echo "no"<CR>
-inoremap <Right> :echo "no"<CR>
-vnoremap <Up> :echo "no"<CR>
-vnoremap <Down> :echo "no"<CR>
-vnoremap <Right> :echo "no"<CR>
-vnoremap <Left> :echo "no"<CR>
-nnoremap <Up> :echo "no"<CR>
-nnoremap <Down> :echo "no"<CR>
-nnoremap <Right> :echo "no"<CR>
-nnoremap <Left> :echo "no"<CR>
-
 
 
 nnoremap zz :update<CR>
@@ -142,7 +162,7 @@ inoremap zz <Esc>:update<CR>
 inoremap ; <Esc>$a;<Esc>
 nnoremap ; <Esc>$a;<Esc>
 
-nnoremap ,d g_lD
+nnoremap ,d ddda{
 
 nnoremap ,h :noh<cr>
 
@@ -160,10 +180,28 @@ nnoremap R :e<CR>
 
 nmap <leader>F :Leaderf function<CR>
 
+nnoremap ,m :! bin/console doc:migrations:migrate
+
+nnoremap ,e :! bin/console make:migration
+
+nnoremap ,p :! pandoc % -t beamer -o %:r.pdf<cr>
+
+nnoremap ,v : tabnew ~/.vim/vimrc<cr>
+
+nnoremap ,s : so ~/.vim/vimrc<cr>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+
+nmap <Space> <<Space>
+
 
 let g:molokai_original=1
 colorscheme molokai
-
+hi Normal guibg=NONE ctermbg=NONE
 " NCM2 CONFIG
 " enable ncm2 for all buffers
 autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -237,23 +275,15 @@ autocmd FileType php setlocal omnifunc=phpactor#Complete
 let &t_SI.="\e[5 q"
 let &t_EI.="\e[1 q"
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" Syntastic configuration for PHP
-let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
-let g:syntastic_php_phpcs_exec = '~/RUDA/PPS-RUDA/vendor/bin/phpcs'
-let g:syntastic_php_phpcs_args = '--standard=psr2'
-let g:syntastic_php_phpmd_exec = '~/phpmd/phpmd/src/bin/phpmd'
-let g:syntastic_php_phpmd_post_args = 'cleancode,codesize,controversial,design,unusedcode'
 
 set scrolljump=15
+set scrolloff=10
 set cursorline
 set cursorcolumn
 " hi CursorLine   cterm=NONE ctermbg=234 ctermfg=NONE
 set ruler
+
+set lazyredraw
 
 " save on jump
 set autowrite
@@ -269,10 +299,8 @@ set undofile
 set undodir=/tmp
 
 "Latex CONF
-map ,c zz:! pdflatex ~/pps/PPS_Franco_Ganga.tex<cr>
-autocmd Filetype tex setl updatetime=10
-let g:livepreview_previewer = 'evince'
+map ,c zz:! pdflatex %
 
 set mouse=
 
-command Todo noautocmd vimgrep /TODO\|FIXME/j ** | cw
+
