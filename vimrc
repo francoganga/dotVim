@@ -77,6 +77,8 @@ Plug 'https://github.com/tpope/vim-surround'
 " Plug 'https://github.com/itchyny/lightline.vim'
 Plug 'https://github.com/vim-airline/vim-airline'
 
+Plug 'vim-airline/vim-airline-themes'
+
 Plug 'https://github.com/airblade/vim-gitgutter'
 
 Plug 'https://github.com/stephpy/vim-php-cs-fixer'
@@ -115,25 +117,25 @@ Plug 'https://github.com/tpope/vim-unimpaired'
 
 Plug 'https://github.com/rust-lang/rust.vim'
 
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm install',
-  \ 'branch': 'release/1.x',
-  \ 'for': [
-    \ 'javascript',
-    \ 'typescript',
-    \ 'css',
-    \ 'less',
-    \ 'scss',
-    \ 'json',
-    \ 'graphql',
-    \ 'markdown',
-    \ 'vue',
-    \ 'lua',
-    \ 'php',
-    \ 'python',
-    \ 'ruby',
-    \ 'html',
-    \ 'swift' ] }
+" Plug 'prettier/vim-prettier', {
+"   \ 'do': 'npm install',
+"   \ 'branch': 'release/1.x',
+"   \ 'for': [
+"     \ 'javascript',
+"     \ 'typescript',
+"     \ 'css',
+"     \ 'less',
+"     \ 'scss',
+"     \ 'json',
+"     \ 'graphql',
+"     \ 'markdown',
+"     \ 'vue',
+"     \ 'lua',
+"     \ 'php',
+"     \ 'python',
+"     \ 'ruby',
+"     \ 'html',
+"     \ 'swift' ] }
 
 
 Plug 'justinmk/vim-sneak'
@@ -146,22 +148,26 @@ else
 endif
 
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
 
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
+"REGEX SEARCH
 Plug 'https://github.com/rking/ag.vim'
-
 Plug 'https://github.com/gabesoft/vim-ags'
+"-----------------------------------------
+
 
 
 Plug 'unblevable/quick-scope'
+
+
+"TYPESCRIPT NEW---------------------------------------
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tslint', 'coc-prettier', 'coc-angular' ]
+"-----------------------------------------------------
+"
 
 
 call plug#end()
@@ -181,6 +187,7 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 imap jj <Esc>
 
 map ,l :NERDTreeToggle<CR>
+nnoremap ,k :NERDTreeFind<cr>
 
 
 nnoremap zz :update<CR>
@@ -190,10 +197,7 @@ inoremap zz <Esc>:update<CR>
 inoremap ; <Esc>$a;<Esc>
 nnoremap ; <Esc>$a;<Esc>
 
-nnoremap ,d ddda{
-
 nnoremap ,h :noh<cr>
-
 
 set relativenumber
 set nu
@@ -208,12 +212,6 @@ nnoremap R :e<CR>
 
 nmap <leader>F :Leaderf function<CR>
 
-nnoremap ,m :! bin/console doc:migrations:migrate
-
-nnoremap ,e :! bin/console make:migration
-
-nnoremap ,p :! pandoc % -t beamer -o %:r.pdf<cr>
-
 nnoremap ,v : tabnew ~/.vim/vimrc<cr>
 
 nnoremap ,s : so ~/.vim/vimrc<cr>
@@ -226,17 +224,21 @@ nnoremap <C-l> <C-w>l
 if bufwinnr(1)
   map + <C-W>+
   map - <C-W>-
+  map <leader>k :wincmd k<cr>
 endif
 
 nnoremap ,a :Ags<Space><C-R>=expand('<cword>')<CR><CR>
 
 
-nmap <Space> <<Space>
 
+inoremap jk <Esc>
 
+"MOLOKAI THEME
 let g:molokai_original=1
-colorscheme molokai
+colorscheme gruvbox
 hi Normal guibg=NONE ctermbg=NONE
+
+"
 " NCM2 CONFIG
 " enable ncm2 for all buffers
 autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -372,3 +374,168 @@ tnoremap <A-t> <C-\><C-n>:call TermToggle(12)<CR>
 " Terminal go back to normal mode
 tnoremap <Esc> <C-\><C-n>
 tnoremap :q! <C-\><C-n>:q!<CR>
+
+
+
+"COC VIM CONFIG
+"
+"
+"
+"
+" Remap for format selected region
+xmap <leader>p  <Plug>(coc-format-selected)
+nmap <leader>p  <Plug>(coc-format-selected)
+"
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" Do default action for next item.
+nnoremap <silent> ,m  :<C-u>CocNext<CR>
+
+function! Occs()
+  execute "split ".expand('%:r').".scss"
+  execute "resize 15"
+endfunction
+
+function! Ocomp()
+  execute "split ".expand('%:r').".ts"
+endfunction
+
+function! Ohtml()
+  execute "split ".expand('%:r').".html"
+endfunction
+
+"Prettier command
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+nnoremap ,ss :call Occs()<cr>
+nnoremap ,cc :call Ocomp()<cr>
+nnoremap ,hh :call Ohtml()<cr>
+
+
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue Prettier
+
+let mapleader = " "
+
+nmap <leader>h :wincmd h<CR>
+nmap <leader>j :wincmd j<CR>
+nmap <leader>k :wincmd k<CR>
+nmap <leader>l :wincmd l<CR>
