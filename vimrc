@@ -70,11 +70,8 @@ Plug 'https://github.com/editorconfig/editorconfig-vim'
 
 Plug 'https://github.com/mattn/emmet-vim'
 
-Plug 'beyondwords/vim-twig'
-
 Plug 'https://github.com/tpope/vim-surround'
 
-" Plug 'https://github.com/itchyny/lightline.vim'
 Plug 'https://github.com/vim-airline/vim-airline'
 
 Plug 'vim-airline/vim-airline-themes'
@@ -97,11 +94,6 @@ Plug 'tpope/vim-rhubarb'
 
 Plug 'https://github.com/Yggdroot/LeaderF'
 
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'phpactor/ncm2-phpactor'
-Plug 'neomake/neomake'
-
 Plug 'https://github.com/jiangmiao/auto-pairs'
 
 Plug 'ntpeters/vim-better-whitespace'
@@ -109,13 +101,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
 
-Plug 'https://github.com/vim-vdebug/vdebug'
-
 Plug 'https://github.com/tpope/vim-repeat'
-
-Plug 'https://github.com/tpope/vim-unimpaired'
-
-Plug 'https://github.com/rust-lang/rust.vim'
 
 " Plug 'prettier/vim-prettier', {
 "   \ 'do': 'npm install',
