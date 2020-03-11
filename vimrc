@@ -166,8 +166,6 @@ let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 
 "_________________________________
 
-let g:deoplete#enable_at_startup = 1
-
 set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 imap jj <Esc>
@@ -224,13 +222,6 @@ let g:molokai_original=1
 colorscheme gruvbox
 hi Normal guibg=NONE ctermbg=NONE
 
-"
-" NCM2 CONFIG
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
-
-" IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
